@@ -153,6 +153,33 @@ class SelectorButton extends StatelessWidget {
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12), topRight: Radius.circular(12))),
       builder: (BuildContext context) {
+        final size = MediaQuery.of(context).size;
+        final isWebMobile = size.width < 820;
+        if (!isWebMobile) {
+          return Directionality(
+            textDirection: Directionality.of(inheritedContext),
+            child: Container(
+              constraints: BoxConstraints(maxHeight: size.height * 0.5),
+              decoration: ShapeDecoration(
+                color: Theme.of(context).canvasColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                ),
+              ),
+              child: CountrySearchListWidget(
+                countries,
+                locale,
+                searchBoxDecoration: searchBoxDecoration,
+                showFlags: selectorConfig.showFlags,
+                useEmoji: selectorConfig.useEmoji,
+                autoFocus: autoFocusSearchField,
+              ),
+            ),
+          );
+        }
         return Stack(children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
